@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
 
       - name: AI Reviewer
-        uses: uses: anc95/ChatGPT-CodeReview@main # Action que orquestra a revisão
+        uses: anc95/ChatGPT-CodeReview@main # Action que orquestra a revisão
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.AI_API_KEY }} # Google Gemini API Key
