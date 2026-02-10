@@ -16,27 +16,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: AI Reviewer
-        uses: coderabbitai/ai-pr-reviewer@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # O CodeRabbit as vezes exige que a chave do Gemini esteja nesta variável
-          OPENAI_API_KEY: ${{ secrets.AI_API_KEY }} 
+      - name: Gemini Code Review
+        uses: google-gemini/generative-ai-gh-action@v1
         with:
-          debug: false
-          # Forçando a base URL do Google Gemini
-          openai_base_url: https://generativelanguage.googleapis.com/v1beta/openai/
-          # Definindo o modelo nas duas frentes da Action
-          openai_light_model: gemini-2.0-flash
-          openai_heavy_model: gemini-2.0-flash
-          language: Portuguese
-          path_filters: |
-            !src/test/**
-            !**/resources/**
-          system_message: |
+          gemini_api_key: ${{ secrets.AI_API_KEY }}
+          model: gemini-2.0-flash
+          # O prompt que você definiu agora vai direto para o Google
+          prompt: |
             Aja como um Engenheiro de Segurança Sênior (DevSecOps). 
             Analise o DIFF deste Pull Request buscando:
             1. Vulnerabilidades OWASP Top 10 (especialmente SQL Injection e Insecure Deserialization).
             2. Code Smells e complexidade ciclomática desnecessária.
             3. Aderência às melhores práticas de Java 25 e Spring Boot 3.4.
-            4. Responda com comentários técnicos diretamente nas linhas do código.
+            4. Responda com comentários técnicos e construtivos em Português.
